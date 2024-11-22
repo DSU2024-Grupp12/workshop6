@@ -52,9 +52,32 @@ public class Blabber : MonoBehaviour
     // Intended as a target for a Unity event (like pressing a button).
     public void ProgressDialogue(InputAction.CallbackContext context)
     {
+        Debug.Log("enter");
         // Only run progress dialogue upon button press, and if showing the dialogue canvas
         if (context.started && dialogueCanvas.enabled)
         {
+            Debug.Log("started");
+            // Show next line in the UI text, if possible
+            if (upcomingLines.Count > 0)
+            {
+                lineUI.text = upcomingLines.Dequeue();
+            }
+            // Otherwise close the dialogue (no more lines left)
+            else
+            {
+                dialogueCanvas.enabled = false;
+                onDialogueEnded.Invoke();
+            }
+        }
+    }
+    
+    public void ProgressDialogue()
+    {
+        Debug.Log("enter");
+        // Only run progress dialogue upon button press, and if showing the dialogue canvas
+        if (dialogueCanvas.enabled)
+        {
+            Debug.Log("started");
             // Show next line in the UI text, if possible
             if (upcomingLines.Count > 0)
             {
